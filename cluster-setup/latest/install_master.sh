@@ -181,7 +181,7 @@ systemctl enable kubelet && systemctl start kubelet
 
 ### init k8s
 rm /root/.kube/config || true
-IP=$(ifconfig eth1 | grep 'inet ' | awk '{print $2}')
+IP=$(ip -4 addr show enp0s8 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
 kubeadm init --kubernetes-version=${KUBE_VERSION} --apiserver-advertise-address=$IP --ignore-preflight-errors=NumCPU --skip-token-print --pod-network-cidr 192.168.0.0/16
 
 mkdir -p ~/.kube
